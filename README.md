@@ -6,4 +6,4 @@ This is a stereoscopic viewer for the Moon in Google Cardboard, built with WebGL
 
 ## Instructions
 
-Clone this repo and open index.html. Eventually I'll have this up and running on (dawneraq.github.io)[https://dawneraq.github.io].
+Clone this repo and open index.html. Eventually I'll have this up and running on [dawneraq.github.io](https://dawneraq.github.io).
