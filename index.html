@@ -22,10 +22,13 @@
   <body>
     <div id="example"></div>
 
-  <script src="js/third-party/threejs/three.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js"></script>
   <script src="js/third-party/threejs/StereoEffect.js"></script>
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
+  <script src="js/third-party/threejs/loaders/DDSLoader.js"></script>
+	<script src="js/third-party/threejs/loaders/MTLLoader.js"></script>
+	<script src="js/third-party/threejs/loaders/OBJLoader.js"></script>
 
   <script>
     var camera, scene, renderer;
@@ -80,34 +83,38 @@
       var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
       scene.add(light);
 
-      addModel(scene);
+      addModel(scene, 'Moon_3D_Model/', 'moon.mtl', 'moon.obj');
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
     }
 
-    function addModel(scene) {
-      var texture = THREE.ImageUtils.loadTexture(
-        'textures/patterns/checker.png'
-      );
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat = new THREE.Vector2(50, 50);
-      texture.anisotropy = renderer.getMaxAnisotropy();
+    // https://threejs.org/examples/#webgl_loader_obj_mtl
+    function addModel(scene, path, mtlName, objName) {
+      var onProgress = function ( xhr ) {
+        if ( xhr.lengthComputable ) {
+          var percentComplete = xhr.loaded / xhr.total * 100;
+          console.log( Math.round(percentComplete, 2) + '% downloaded' );
+        }
+      };
 
-      var material = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        specular: 0xffffff,
-        shininess: 20,
-        shading: THREE.FlatShading,
-        map: texture
+      var onError = function ( xhr ) { };
+
+      THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+
+      var mtlLoader = new THREE.MTLLoader();
+      mtlLoader.setPath( path );
+      mtlLoader.load( mtlName, function( materials ) {
+        materials.preload();
+
+        var objLoader = new THREE.OBJLoader();
+        objLoader.setMaterials( materials );
+        objLoader.setPath( path );
+        objLoader.load( objName, function ( object ) {
+          object.position.y = - 95;
+          scene.add( object );
+        }, onProgress, onError );
       });
-
-      var geometry = new THREE.PlaneGeometry(1000, 1000);
-
-      var mesh = new THREE.Mesh(geometry, material);
-      mesh.rotation.x = -Math.PI / 2;
-      scene.add(mesh);
     }
 
     function resize() {
