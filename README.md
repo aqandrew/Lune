@@ -2,6 +2,8 @@
 
 This is a stereoscopic viewer for the Moon in Google Cardboard, built with WebGL and THREE.js.
 
+The boilerplate code is from a [VR Chrome Experiment](https://vr.chromeexperiments.com/).
+
 *Term project for ECSE-4750 Computer Graphics, and creative project for ASTR-2020 Earth & Sky.*
 
 ## Instructions
