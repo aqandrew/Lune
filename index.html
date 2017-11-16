@@ -55,12 +55,6 @@
       scene.add(camera);
 
       controls = new THREE.OrbitControls(camera, element);
-      controls.rotateUp(Math.PI / 4);
-      controls.target.set(
-        camera.position.x + 0.1,
-        camera.position.y,
-        camera.position.z
-      );
       controls.noZoom = true;
       controls.noPan = true;
 
@@ -80,17 +74,17 @@
       window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
-      var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
+      var light = new THREE.AmbientLight(0xffffff);
       scene.add(light);
 
-      addModel(scene, 'Moon_3D_Model/', 'moon.mtl', 'moon.obj');
+      addModel(scene, controls, 'Moon_3D_Model/', 'moon.mtl', 'moon.obj');
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
     }
 
     // https://threejs.org/examples/#webgl_loader_obj_mtl
-    function addModel(scene, path, mtlName, objName) {
+    function addModel(scene, orbitControls, path, mtlName, objName) {
       var onProgress = function ( xhr ) {
         if ( xhr.lengthComputable ) {
           var percentComplete = xhr.loaded / xhr.total * 100;
@@ -113,6 +107,11 @@
         objLoader.load( objName, function ( object ) {
           object.position.y = - 95;
           scene.add( object );
+          controls.target.set(
+            object.position.x,
+            object.position.y,
+            object.position.z
+          );
         }, onProgress, onError );
       });
     }
