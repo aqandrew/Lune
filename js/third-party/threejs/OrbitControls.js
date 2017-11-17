@@ -621,51 +621,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 
   }
 
-  /**
-   * Tilt function
-   * 
-   * For mobile, uses orientation sensors to orbit target object. Only supports
-   * orbit.  Pan and zoom may come later.  Ping me if of interest @ novak.us 
-   * 
-   * @param event 
-   * 
-   * @Performance: I have found that devicemotion event is a little faster 
-   * likely because the delta is part of the device event object and doesn't 
-   * have to be calculated here.  Though, I find that the deviceorientation 
-   * event is more common.
-   */
-  function tilt(event){  
-    var start, end, time;
-        
-    switch(event.type) {
-      case "deviceorientation" :
-        start = new Date().getTime();
-        rotateEnd.set( event.gamma, event.beta );
-        rotateDelta.subVectors( rotateEnd, rotateStart );
-        
-        scope.rotateLeft( rotateDelta.x * scope.tiltSpeed);  
-        scope.rotateUp( rotateDelta.y * scope.tiltSpeed);
-        
-        rotateStart.copy( rotateEnd );
-        
-        scope.update();
-        end = new Date().getTime();
-        time =  end - start;
-        console.log("deviceorientation: " + time);
-        break;
-      case "devicemotion" :
-        start = new Date().getTime()
-        scope.rotateLeft(event.rotationRate.beta * scope.tiltSpeed) ;
-        scope.rotateUp(event.rotationRate.alpha * scope.tiltSpeed) ;
-          
-        scope.update();
-        end = new Date().getTime();
-        time =  end - start;
-        console.log("devicemotion: " + time)
-        break;
-    }
-  } //tilt
-
   this.domElement.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
   this.domElement.addEventListener( 'mousedown', onMouseDown, false );
   this.domElement.addEventListener( 'mousewheel', onMouseWheel, false );
@@ -676,12 +631,6 @@ THREE.OrbitControls = function ( object, domElement ) {
   this.domElement.addEventListener( 'touchmove', touchmove, false );
 
   window.addEventListener( 'keydown', onKeyDown, false );
-
-  if (window.DeviceOrientationEvent ) {  
-    window.addEventListener('deviceorientation', tilt, false);
-  } else if ( window.DeviceMotionEvent ) {
-    window.addEventListener('devicemotion', tilt, false);
-  } 
 
   // force an update at start
   this.update();
