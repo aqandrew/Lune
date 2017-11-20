@@ -16,10 +16,18 @@
         left: 0;
         right: 0;
         bottom: 0;
+        z-index: 1;
+      }
+
+      h1 {
+        color: pink;
+        position: absolute;
+        z-index: 2;
       }
     </style>
   </head>
   <body>
+    <h1>everything is normal</h1>
     <div id="example"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js"></script>
@@ -78,14 +86,14 @@
       var light = new THREE.AmbientLight(0xffffff);
       scene.add(light);
 
-      addModel(scene, controls, 'Moon_3D_Model/', 'moon.mtl', 'moon.obj');
+      addModel(scene, 'Moon_3D_Model/', 'moon.mtl', 'moon.obj');
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
     }
 
     // https://threejs.org/examples/#webgl_loader_obj_mtl
-    function addModel(scene, orbitControls, path, mtlName, objName) {
+    function addModel(scene, path, mtlName, objName) {
       var onProgress = function ( xhr ) {
         if ( xhr.lengthComputable ) {
           var percentComplete = xhr.loaded / xhr.total * 100;
@@ -106,6 +114,7 @@
         objLoader.setMaterials( materials );
         objLoader.setPath( path );
         objLoader.load( objName, function ( object ) {
+          // Our model's radius is about 49
           object.position.y = - 95;
           scene.add( object );
           controls.target.set(

@@ -180,7 +180,7 @@ THREE.DeviceOrientationControls = function(object) {
   };
 
   this.disconnect = function() {
-    this.freze = true;
+    this.freeze = true;
   };
 
 };
