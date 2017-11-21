@@ -2,6 +2,8 @@
 
 This is a stereoscopic viewer for the Moon in Google Cardboard, built with WebGL and THREE.js. So far only tested on an iPhone 6.
 
+If you lack a Cardboard viewer, you can still achieve a 3D effect on desktop by crossing your eyes.
+
 The boilerplate code is from a [VR Chrome Experiment](https://vr.chromeexperiments.com/).
 
 I used a 3D model of the Moon uploaded by [nicola3dmodels at free3d.com](https://free3d.com/3d-model/moon-17150.html).
