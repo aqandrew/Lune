@@ -39,6 +39,12 @@
   <script src="js/third-party/threejs/loaders/OBJLoader.js"></script>
 
   <script>
+    window.onload = () => {
+      if ( window.orientation == 0 || window.orientation == 180 ) { 
+        alert('Place your mobile device landscape-wise in a Cardboard viewer for the best experience.'); 
+      }
+    };
+
     var camera, scene, moon, renderer;
     var effect, controls;
     var element, container;
