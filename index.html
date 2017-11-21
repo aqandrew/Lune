@@ -27,7 +27,7 @@
     </style>
   </head>
   <body>
-    <h1>hungry for apples!</h1>
+    <!-- <h1>sanity check here</h1> -->
     <div id="example"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js"></script>
@@ -39,7 +39,7 @@
   <script src="js/third-party/threejs/loaders/OBJLoader.js"></script>
 
   <script>
-    var camera, scene, renderer;
+    var camera, scene, moon, renderer;
     var effect, controls;
     var element, container;
 
@@ -90,48 +90,55 @@
       var light = new THREE.AmbientLight(0xffffff);
       scene.add(light);
 
-      addModel(scene, 'Moon_3D_Model/', 'moon.mtl', 'moon.obj');
+      addModel(scene, 'Moon_3D_Model/', 'moon.mtl', 'moon.obj')
+        .then((loadedMoon) => {
+          moon = loadedMoon;
+          console.log('Loaded Moon:', moon);
+        });
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
     }
 
     // https://threejs.org/examples/#webgl_loader_obj_mtl
+    // Resolves with Moon object
     function addModel(scene, path, mtlName, objName) {
-      var onProgress = function ( xhr ) {
-        if ( xhr.lengthComputable ) {
-          var percentComplete = xhr.loaded / xhr.total * 100;
-          console.log( Math.round(percentComplete, 2) + '% downloaded' );
-        }
-      };
+      return new Promise((resolve, reject) => {
+        var onProgress = function ( xhr ) {
+          if ( xhr.lengthComputable ) {
+            var percentComplete = xhr.loaded / xhr.total * 100;
+            console.log( Math.round(percentComplete, 2) + '% downloaded' );
+          }
+        };
 
-      var onError = function ( xhr ) { };
+        THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 
-      THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+        var mtlLoader = new THREE.MTLLoader();
+        mtlLoader.setPath( path );
+        mtlLoader.load( mtlName, function( materials ) {
+          materials.preload();
 
-      var mtlLoader = new THREE.MTLLoader();
-      mtlLoader.setPath( path );
-      mtlLoader.load( mtlName, function( materials ) {
-        materials.preload();
+          var objLoader = new THREE.OBJLoader();
+          objLoader.setMaterials( materials );
+          objLoader.setPath( path );
+          objLoader.load( objName, function ( object ) {
+            // Our model's radius is about 49
+            object.position.y = - 95;
+            scene.add( object );
+            controls.target.set(
+              object.position.x,
+              object.position.y,
+              object.position.z
+            );
+            // if (controls instanceof THREE.DeviceOrientationControls) {
+            controls = new THREE.DeviceOrientationControls(object, true);
+            controls.connect();
+            controls.update();
 
-        var objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials( materials );
-        objLoader.setPath( path );
-        objLoader.load( objName, function ( object ) {
-          // Our model's radius is about 49
-          object.position.y = - 95;
-          scene.add( object );
-          controls.target.set(
-            object.position.x,
-            object.position.y,
-            object.position.z
-          );
-          // if (controls instanceof THREE.DeviceOrientationControls) {
-          controls = new THREE.DeviceOrientationControls(object, true);
-          controls.connect();
-          controls.update();
-          // }
-        }, onProgress, onError );
+            resolve(object);
+            // }
+          }, onProgress, (xhr) => { reject(xhr); } );
+        });
       });
     }
 
