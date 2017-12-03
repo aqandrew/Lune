@@ -55,7 +55,7 @@
     animate();
 
     function init() {
-      renderer = new THREE.WebGLRenderer();
+      renderer = new THREE.WebGLRenderer({ antialias: true });
       element = renderer.domElement;
       container = document.getElementById('example');
       container.appendChild(element);
@@ -81,10 +81,6 @@
         // Placeholder target location before loading the lunar model
         tempDeviceOrientationTarget = new THREE.Object3D();
         tempDeviceOrientationTarget.position.y = - 95;
-
-        // controls = new THREE.DeviceOrientationControls(tempDeviceOrientationTarget, true);
-        // controls.connect();
-        // controls.update();
 
         element.addEventListener('click', fullscreen, false);
 
