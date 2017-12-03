@@ -66,6 +66,7 @@
 
       camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
       camera.position.set(0, 10, 0);
+      // camera.up.set(0, 0, -1); TODO may help with axis inversion bug
       scene.add(camera);
 
       controls = new THREE.OrbitControls(camera, element);
@@ -126,19 +127,27 @@
           objLoader.load( objName, function ( object ) {
             // Our model's radius is about 49
             object.position.y = - 95;
+
+            // TODO apply rotations based on device
+            // Desktop
+            // object.children[0].rotation.x = 185 * Math.PI / 180;
+            // object.children[0].rotation.y = -15 * Math.PI / 180;
+            // object.children[0].rotation.z = 170 * Math.PI / 180;
+
+            // Mobile
+            // object.children[0].rotation.x = 90 * Math.PI / 180;
+
             scene.add( object );
             controls.target.set(
               object.position.x,
               object.position.y,
               object.position.z
             );
-            // if (controls instanceof THREE.DeviceOrientationControls) {
             controls = new THREE.DeviceOrientationControls(object, true);
             controls.connect();
             controls.update();
 
             resolve(object);
-            // }
           }, onProgress, (xhr) => { reject(xhr); } );
         });
       });
