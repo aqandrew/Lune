@@ -38,10 +38,6 @@ function init() {
       return;
     }
     
-    // Placeholder target location before loading the lunar model
-    tempDeviceOrientationTarget = new THREE.Object3D();
-    tempDeviceOrientationTarget.position.y = - 95;
-    
     element.addEventListener('click', fullscreen, false);
     
     window.removeEventListener('deviceorientation', setOrientationControls, true);
