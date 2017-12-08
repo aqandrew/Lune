@@ -81,14 +81,15 @@ function addModel(scene, path, mtlName, objName) {
         // Our model's radius is about 49
         object.position.y = - 95;
         
-        // TODO apply rotations based on device
-        // Desktop
-        // object.children[0].rotation.x = 185 * Math.PI / 180;
-        // object.children[0].rotation.y = -15 * Math.PI / 180;
-        // object.children[0].rotation.z = 170 * Math.PI / 180;
-        
-        // Mobile
-        // object.children[0].rotation.x = 90 * Math.PI / 180;
+        // Face the near side of Moon on load, regardless of device
+        if (window.matchMedia('(min-width: 800px)').matches) {
+          // Desktop
+          object.children[0].rotation.y = 180 * Math.PI / 180;
+        }
+        else {
+          // Mobile
+          object.children[0].rotation.x = 90 * Math.PI / 180;
+        }
         
         scene.add( object );
         controls.target.set(
