@@ -25,13 +25,11 @@ function init() {
   
   camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
   camera.position.set(0, 10, 0);
-  // camera.up.set(0, 0, -1); TODO may help with axis inversion bug
   scene.add(camera);
   
   controls = new THREE.OrbitControls(camera, element);
   controls.noZoom = true;
   controls.noPan = true;
-  controls.tiltEnabled = true; // must enable in order to control with phone's gyro sensor
   
   function setOrientationControls(e) {
     if (!e.alpha) {
