@@ -99,7 +99,7 @@ THREE.DeviceOrientationControls = function(object) {
         //this.autoAlign = true;
       //}
 
-      this.alpha = deviceOrientation.gamma ?
+      this.alpha = deviceOrientation.alpha ?
         THREE.Math.degToRad(deviceOrientation.alpha) : 0; // Z
       this.beta = deviceOrientation.beta ?
         THREE.Math.degToRad(deviceOrientation.beta) : 0; // X'
@@ -111,8 +111,8 @@ THREE.DeviceOrientationControls = function(object) {
       // The angles alpha, beta and gamma
       // form a set of intrinsic Tait-Bryan angles of type Z-X'-Y''
 
-      // 'ZXY' for the device, but 'YXZ' for us
-      euler.set(this.beta, this.alpha, - this.gamma, 'YXZ');
+      // 'ZXY' for the device, but 'XYZ' for us
+      euler.set(this.alpha, this.beta, - this.gamma, 'XYZ');
 
       quaternion.setFromEuler(euler);
       quaternionLerp.slerp(quaternion, 0.5); // interpolate
