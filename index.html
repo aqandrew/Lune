@@ -19,9 +19,26 @@
       bottom: 0;
       z-index: 1;
     }
+    #euler-container {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    #euler-container * {
+      color: pink;
+      z-index: 2;
+    }
   </style>
 </head>
 <body>
+  <div class="" id="euler-container">
+    <p>alpha: {{ alpha }}</p>
+    <p>beta: {{ beta }}</p>
+    <p>gamma: {{ gamma }}</p>
+  </div>
   <div id="viewer"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js"></script>
@@ -31,5 +48,6 @@
 <script src="js/third-party/threejs/loaders/DDSLoader.js"></script>
 <script src="js/third-party/threejs/loaders/MTLLoader.js"></script>
 <script src="js/third-party/threejs/loaders/OBJLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="js/lune.js"></script>
 </html>

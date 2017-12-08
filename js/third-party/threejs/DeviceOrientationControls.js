@@ -183,6 +183,18 @@ THREE.DeviceOrientationControls = function(object) {
     this.freeze = true;
   };
 
+  this.getAlpha = function() {
+    return this.alpha;
+  }
+
+  this.getBeta = function() {
+    return this.beta;
+  }
+
+  this.getGamma = function() {
+    return this.gamma;
+  }
+
 };
 
 })();

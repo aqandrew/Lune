@@ -25,7 +25,7 @@ function init() {
   
   camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
   camera.position.set(0, 10, 0);
-  // camera.up.set(0, 0, -1); TODO may help with axis inversion bug
+  camera.up.set(0, 0, -1); // TODO may help with axis inversion bug
   scene.add(camera);
   
   controls = new THREE.OrbitControls(camera, element);
@@ -52,6 +52,7 @@ function init() {
   .then((loadedMoon) => {
     moon = loadedMoon;
     console.log('Loaded Moon:', moon);
+    initDebugVue();
   });
   
   window.addEventListener('resize', resize, false);
@@ -148,4 +149,15 @@ function fullscreen() {
   } else if (container.webkitRequestFullscreen) {
     container.webkitRequestFullscreen();
   }
+}
+
+function initDebugVue() {
+  var eulerContainer = new Vue({
+    el: '#euler-container',
+    data: {
+      alpha: controls.getAlpha(),
+      beta: controls.getBeta(),
+      gamma: controls.getGamma()
+    }
+  });
 }
