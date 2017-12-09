@@ -20,11 +20,11 @@ Crossing your eyes to achieve stereoscopic 3D is possible, but not recommended.
 
 I chose to design my term project around Google Cardboard because I got a free viewer from work over the summer. The example apps are pretty mindblowing, and showcase the technology's capability in a variety of ways.
 
-For the rendering and camera controls, I used ThreeJS, an open-source JavaScript library that acts as a wrapper around a WebGL renderer. Cardboard had ThreeJS starter code at [vr.chromeexperiments.com](https://vr.chromeexperiments.com/).
+For the rendering and camera controls, I used ThreeJS, an open-source JavaScript library that acts as a wrapper around a WebGL renderer. Cardboard had ThreeJS starter code at [vr.chromeexperiments.com](https://vr.chromeexperiments.com/), which gives a split stereoscopic view of standing in an infinitely large room with a checkered tile floor.
 
 ThreeJS also provides loaders for the 3D model file formats I used.
 
-Instead of a topographically accurate 3D model of the Moon, the model that's currently displayed is one created by a free3d.com user in Maya. It consists of:
+Instead of a topographically accurate 3D model of the Moon, the model that Lune currently displays is one created by a free3d.com user in Maya. It consists of:
 
 1. An .obj file representing the vertices of a perfect sphere, and
 1. An .mtl file with references to two .jpgs, a 2500x1250px texture map and a bump map, each of which is projected onto the sphere.
